@@ -12,8 +12,15 @@ game.PlayerEntity = me.Entity.extend({
 		}]);
 		//this all connects with meauring the width and height
 
-		this.body.setVelocity(5, 0);
+		this.body.setVelocity(5, 20);
 		//this setes the velocity
+
+		this.renderable.addAnimation("idle", [78]);
+		this.renderable.addAnimation("walk", [117, 118, 119, 120, 121, 122, 123, 124, 125], 80);
+		//this sets thepositon of the character
+
+		this.renderable.setCurrentAnimation("idle");
+		//this sets the current position
 
 	},
 
@@ -23,9 +30,12 @@ game.PlayerEntity = me.Entity.extend({
 			//setVelocity() and multiplying it by me.timer.tick.
 			//me.timer.tick makes the movement look smoooth
 			this.body.vel.x += this.body.accel.x * me.timer.tick;
+			this.renderable.setCurrentAnimation("walk");
 		}else{
 			this.body.vel.x = 0;
 		}
+
+		
 
 		this.body.update(delta);
 		return true;
