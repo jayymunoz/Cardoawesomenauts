@@ -13,6 +13,9 @@ game.PlayScreen = me.ScreenObject.extend({
                 me.game.world.addChild(player, 5);
                 //created a character to pop on the screen 
                 
+                var gamemanager = me.pool.pull("GmaeManager", 0, 0,{});
+                me.game.world.addChild(gamemanager, 0);
+                
                 me.input.bindKey(me.input.KEY.RIGHT, "right");
                 me.input.bindKey(me.input.KEY.LEFT, "left");
                 me.input.bindKey(me.input.KEY.SPACE, "jump");

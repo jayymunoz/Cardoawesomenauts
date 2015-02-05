@@ -43,6 +43,8 @@ var game = {
                 //you are making the player appear on screen
                 me.pool.register("EnemyBase", game.EnemyBaseEntity);
                 me.pool.register("PlayerBase", game.PlayerBaseEntity);
+                me.pool.register("EnemyCreep", game.EntityCreep, true);
+                me.pool.register("GameManager", game.GameManager);
                 //the bases we are making to show up on the screen
             
 		me.state.set(me.state.MENU, new game.TitleScreen());
