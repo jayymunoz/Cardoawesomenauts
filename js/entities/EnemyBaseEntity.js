@@ -1,22 +1,23 @@
-	game.EnemyBaseEntity = me.Entity.extend({
-	init : function(x, y, settings) {
+//just like PlayerBaseEntity class, but the name is EnemyBaseEntity
+//everything is the same
+game.EnemyBaseEntity = me.Entity.extend({
+	init: function(x, y, settings){
 		this._super(me.Entity, 'init', [x, y, {
 			image: "tower",
 			width: 100,
-			height: 100,
+			height: 100, 
 			spritewidth: "100",
 			spriteheight: "100",
-			getShape: function() {
+			getShape: function(){
 				return (new me.Rect(0, 0, 100, 70)).toPolygon();
 			}
 		}]);
-		this.type = "PlayerEntity";
 		this.broken = false;
 		this.health = game.data.enemyBaseHealth;
 		this.alwaysUpdate = true;
 		this.body.onCollision = this.onCollision.bind(this);
 
-		this.type = "EnemyBaseEntity"
+		this.type = "EnemyBaseEntity";
 
 		this.renderable.addAnimation("idle", [0]);
 		this.renderable.addAnimation("broken", [1]);
@@ -24,21 +25,26 @@
 	},
 
 	update:function(delta){
-		if(this.health<=0) {
+		if(this.health<=0){
 			this.broken = true;
+			//if enemy base breaks first...I win
+			game.data.win = true;
 			this.renderable.setCurrentAnimation("broken");
 		}
 		this.body.update(delta);
 
+		//updates animation on the fly
 		this._super(me.Entity, "update", [delta]);
 		return true;
 	},
 
-	onCollision: function() {
+	onCollision: function(){
 		
 	},
 
+	//new health function
 	loseHealth: function(){
+		//makes health go down by 1
 		this.health--;
 	}
 });
