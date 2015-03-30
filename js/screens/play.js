@@ -6,40 +6,52 @@ game.PlayScreen = me.ScreenObject.extend({
 		// reset the score
 		game.data.score = 0;
 
-		//console log for experience and experience2 variables
-		console.log(game.data.exp);
-		console.log(game.data.exp2);
-
-		//loads the proper level within game
+		//loads level01 on playscreen. Uses lower case letters first and then uppercase.
 		me.levelDirector.loadLevel("level01");
-		//resets player position
+
+		// loads GameManager
 		this.resetPlayer(0, 420);
-		//new gametimermanager variable
+
+		//loads game manager
 		var gameTimerManager = me.pool.pull("GameTimerManager", 0, 0, {});
-		//adds gametimermanager variable to the world
 		me.game.world.addChild(gameTimerManager, 0);
 
-		//new heroDeathManager variable
 		var heroDeathManager = me.pool.pull("HeroDeathManager", 0, 0, {});
-		//adds herodeathmanager variable to the world
 		me.game.world.addChild(heroDeathManager, 0);
 
-		//new experienceManager variable
-		var experienceManager = me.pool.pull("ExperienceManager", 0, 0, {});
-		//adds experienceManager variable to the world
-		me.game.world.addChild(experienceManager, 0);
+		//loads player
+		var player = me.pool.pull("Player2", 0, 420, {});
+		me.game.world.addChild(player, 5);
 
-		//binds right key for movement
+		// loads experince manager
+		var experienceManager = me.pool.pull("ExperienceManager", 0, 0, {});
+		me.game.world.addChild(experienceManager, 5);
+
+		var spendGold = me.pool.pull("SpendGold", 0, 0, {});
+		me.game.world.addChild(spendGold, 5);
+
+		me.input.bindKey(me.input.KEY.B, "buy");
+		me.input.bindKey(me.input.KEY.Q, "skill");
+		me.input.bindKey(me.input.KEY.W, "skill2");
+		me.input.bindKey(me.input.KEY.E, "skill3");
+
+		//allows right arrow key to be used to make player move 
 		me.input.bindKey(me.input.KEY.RIGHT, "right");
-		//binds left key for left movement
+
+		// binds left arrow key so player can move left
 		me.input.bindKey(me.input.KEY.LEFT, "left");
-		//binds space bar for jump
+
+		//binds space key so player can jump up
 		me.input.bindKey(me.input.KEY.SPACE, "jump");
-		//binds A key for attack
+
+		// binds the 'a' key to allow player to attack
 		me.input.bindKey(me.input.KEY.A, "attack");
+
 		// add our HUD to the game world
 		this.HUD = new game.HUD.Container();
 		me.game.world.addChild(this.HUD);
+		//plays track
+		me.audio.playTrack("smith1");
 	},
 
 
@@ -51,12 +63,9 @@ game.PlayScreen = me.ScreenObject.extend({
 		me.game.world.removeChild(this.HUD);
 	},
 
-	//new reset player function 
-	//passes x and y
-	resetPlayer: function(x, y){
-		//adds player by pulling instance of that player
+	resetPlayer: function(x,y){
 		game.data.player = me.pool.pull("player", x, y, {});
-		//adds player to world and chooses where the character spawns
+
 		me.game.world.addChild(game.data.player, 5);
 	}
 });

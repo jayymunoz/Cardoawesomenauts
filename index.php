@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+=<!DOCTYPE HTML>
 <html>
 	<head>
 		<title>melonJS Template</title>
@@ -28,15 +28,23 @@
 		<script type="text/javascript" src="js/resources.js"></script>
 
 		<script type="text/javascript" src="js/entities/entities.js"></script>
-		<script type="text/javascript" src="js/entities/EnemyBaseEntity.js"></script>
-		<script type="text/javascript" src="js/entities/PlayerBaseEntity.js"></script>
-		<script type="text/javascript" src="js/GameManager.js"></script>
+
+		<!-- loads files for us  -->
 		<script type="text/javascript" src="js/entities/EnemyCreep.js"></script>
+		<script type="text/javascript" src="js/entities/EnemyBaseEntity.js"></script>
+		<script type="text/javascript" src="js/entities/GameManager.js"></script>
+		<script type="text/javascript" src="js/gamemanagers/GameTimerManager.js"></script>
+		<script type="text/javascript" src="js/gamemanagers/SpendGold.js"></script>
+		<script type="text/javascript" src="js/gamemanagers/HeroDeathManagers.js"></script>
+		<script type="text/javascript" src="js/entities/PlayerBaseEntity.js"></script>
+
 		<script type="text/javascript" src="js/entities/HUD.js"></script>
 
 		<script type="text/javascript" src="js/screens/title.js"></script>
 		<script type="text/javascript" src="js/screens/play.js"></script>
 		<script type="text/javascript" src="js/screens/spendExp.js"></script>
+		<script type="text/javascript" src="js/screens/loadProfile.js"></script>
+		<script type="text/javascript" src="js/screens/newProfile.js"></script>
 		<!-- /build -->
 		<!-- Bootstrap & Mobile optimization tricks -->
 		<script type="text/javascript">
