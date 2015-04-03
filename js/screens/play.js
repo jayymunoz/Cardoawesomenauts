@@ -6,52 +6,69 @@ game.PlayScreen = me.ScreenObject.extend({
 		// reset the score
 		game.data.score = 0;
 
-		//loads level01 on playscreen. Uses lower case letters first and then uppercase.
+
+		//loads level
 		me.levelDirector.loadLevel("level01");
-
-		// loads GameManager
+		console.log(game.data.exp);
+		console.log(game.data.exp2);
+		//calls the resetPlayer function with the parameters 0 and 420
 		this.resetPlayer(0, 420);
-
-		//loads game manager
-		var gameTimerManager = me.pool.pull("GameTimerManager", 0, 0, {});
-		me.game.world.addChild(gameTimerManager, 0);
-
-		var heroDeathManager = me.pool.pull("HeroDeathManager", 0, 0, {});
+		//calls the resetPlayer function with the parameters 0 and 420
+		this.resetEnemy(900, 420);
+		//adds HeroDeathmanager to world
+		var heroDeathManager = me.pool.pull("HeroDeathManager", 0 , 0, {});
+		//puts HeroDeathmanager into world
 		me.game.world.addChild(heroDeathManager, 0);
 
-		//loads player
-		var player = me.pool.pull("Player2", 0, 420, {});
-		me.game.world.addChild(player, 5);
+		//adds TImemanager to world
+		var gameTimeManager = me.pool.pull("GameTimeManager", 0 , 0, {});
+		//puts Timemanager into world
+		me.game.world.addChild(gameTimeManager, 0);
 
-		// loads experince manager
-		var experienceManager = me.pool.pull("ExperienceManager", 0, 0, {});
-		me.game.world.addChild(experienceManager, 5);
+		//adds Experiencemanager to world
+		var ExperienceManager = me.pool.pull("ExperienceManager", 0 , 0, {});
+		//puts Experiencemanager into world
+		me.game.world.addChild(ExperienceManager, 0);
 
-		var spendGold = me.pool.pull("SpendGold", 0, 0, {});
-		me.game.world.addChild(spendGold, 5);
+		//adds spendgold to world
+		var spendGold = me.pool.pull("SpendGold", 0 , 0, {});
+		//puts gamemanager into world
+		me.game.world.addChild(spendGold, 0);
 
-		me.input.bindKey(me.input.KEY.B, "buy");
-		me.input.bindKey(me.input.KEY.Q, "skill");
-		me.input.bindKey(me.input.KEY.W, "skill2");
-		me.input.bindKey(me.input.KEY.E, "skill3");
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//enemy hero hack
 
-		//allows right arrow key to be used to make player move 
-		me.input.bindKey(me.input.KEY.RIGHT, "right");
+		//makes the D key into a variable
+		me.input.bindKey(me.input.KEY.D, "right");
+		//makes the A key into a variable
+		me.input.bindKey(me.input.KEY.A, "left");
+		//makes the W key into a variable
+		me.input.bindKey(me.input.KEY.W, "jump");
+		//makes an attack key
+		me.input.bindKey(me.input.KEY.V, "attack");
+		//Makes the right key into a variable
+		me.input.bindKey(me.input.KEY.RIGHT, "rights");
+		//makes the right key into a variable
+		me.input.bindKey(me.input.KEY.LEFT, "lefts");
+		//makes the up key into a variable
+		me.input.bindKey(me.input.KEY.UP, "jumps");
+		//makes space an attack key
+		me.input.bindKey(me.input.KEY.SPACE, "attacks");
+		//pause/gold screen button
+		me.input.bindKey(me.input.KEY.P, "pause");
+		//special skill button
+		me.input.bindKey(me.input.KEY.E, "skill1");
+		//special skill button
+		me.input.bindKey(me.input.KEY.R, "skill2");
+		me.input.bindKey(me.input.KEY.F, "skill3");
 
-		// binds left arrow key so player can move left
-		me.input.bindKey(me.input.KEY.LEFT, "left");
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		//binds space key so player can jump up
-		me.input.bindKey(me.input.KEY.SPACE, "jump");
-
-		// binds the 'a' key to allow player to attack
-		me.input.bindKey(me.input.KEY.A, "attack");
 
 		// add our HUD to the game world
 		this.HUD = new game.HUD.Container();
 		me.game.world.addChild(this.HUD);
-		//plays track
-		me.audio.playTrack("smith1");
+		me.audio.playTrack("AOF");
 	},
 
 
@@ -63,9 +80,37 @@ game.PlayScreen = me.ScreenObject.extend({
 		me.game.world.removeChild(this.HUD);
 	},
 
-	resetPlayer: function(x,y){
+	//adds player to map
+	resetPlayer: function(x, y){
+		//pulls the player entity from the pool
 		game.data.player = me.pool.pull("player", x, y, {});
-
+		//adds him to the game and sets his layer-level
 		me.game.world.addChild(game.data.player, 5);
-	}
+	},
+
+	resetEnemy: function(x, y){
+		//pulls the player entity from the pool
+		game.data.enemyHero = me.pool.pull("enemyHero", x, y, {});
+		//adds him to the game and sets his layer-level
+		me.game.world.addChild(game.data.enemyHero, 5);
+	},
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//pause hack
+	// pausedGame: function(){
+	// 	if (game.data.paused === true) {
+	// 		me.state.change(me.state.PAUSE);
+	// 	}
+	// }
+	//pauseGame: function(){
+		// this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge){
+		// 		//runs if enter button is pressed
+		// 		if (action === "pause") {
+		// 			//goes to play screen
+		// 			me.state.change(me.state.PAUSE);
+		// 		}
+		// });
+		//me.state.change(me.state.PAUSE);
+	//}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 });

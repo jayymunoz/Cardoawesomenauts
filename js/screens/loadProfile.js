@@ -3,37 +3,48 @@ game.LoadProfile = me.ScreenObject.extend({
 	 *  action to perform on state change
 	 */
 	onResetEvent: function() {	
-		me.game.world.addChild(new me.Sprite(0, 0, me.loader.getImage('load-screen')), -10); // TODO
-
-		me.input.unbindKey(me.input.KEY.B);
-		me.input.unbindKey(me.input.KEY.Q);
-		me.input.unbindKey(me.input.KEY.E);
-		me.input.unbindKey(me.input.KEY.W);
+		//inserts the exp-screen image into the map
+		me.game.world.addChild(new me.Sprite(0, 0, me.loader.getImage('load-screen')), -10); 
+		//makes the elements with followind ids visible
+		document.getElementById("input").style.visibility = "visible";
+		document.getElementById("load").style.visibility = "visible";
+		//binds keys
+		me.input.unbindKey(me.input.KEY.D);
 		me.input.unbindKey(me.input.KEY.A);
+		me.input.unbindKey(me.input.KEY.W);
+		me.input.unbindKey(me.input.KEY.V);
+		me.input.unbindKey(me.input.KEY.P);
+		me.input.unbindKey(me.input.KEY.E);
+		me.input.unbindKey(me.input.KEY.R);
+		me.input.unbindKey(me.input.KEY.F);
 
-		// put the word awesomenauts! on title screeen 
+		//for new game
 		me.game.world.addChild(new (me.Renderable.extend({
 			init: function(){
+				//calls super class and positions it
 				this._super(me.Renderable, 'init', [10, 10, 300, 50]);
-				this.font = new me.Font("Arial", 26, "white");
+				//sets the font to arial, the size 46, and colors it white
+				this.font = new me.Font("halfelven", 33, "gold");
 			},
-
+			//function that sets up the writing
 			draw: function(renderer){
-				this.font.draw(renderer.getContext(), "ENTER YOUR USERNAME AND PASSWORD", this.pos.x, this.pos.y);
-				
+				//inserts the message "Press f1-f4 to buy, f5 to skip" and sets where writing starts
+				this.font.draw(renderer.getContext(), "Enter Your Username and Password", this.pos.x, this.pos.y);
 			}
-
-			})));
 			
+		})));
+		
+	
 	},
 	
 	
 	/**	
 	 *  action to perform when leaving this screen (state change)
 	 */
-
-	 // unbinds the enter key so when we press it wont send us to the beginning thing
 	onDestroyEvent: function() {
-		
+		//makes invisible again
+		document.getElementById("input").style.visibility = "hidden";
+		document.getElementById("load").style.visibility = "hidden";
 	}
+
 });
