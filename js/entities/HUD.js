@@ -1,5 +1,7 @@
 
 
+/* global game */
+
 /**
  * a HUD container and child items
  */

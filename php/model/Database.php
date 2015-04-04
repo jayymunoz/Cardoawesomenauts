@@ -1,88 +1,71 @@
 <?php
-	//a class is an object that can be used whereever it is called
-	class Database{  
-		//the "private" before the variable makes it so that these variables can only be used here
-		private $connection;  
-		//global variables
-		private $host;  
-		private $username;
-		private $password;
-		private $database;
-		//this variable is public so that we can access it in create-db.php
-		public $error;
-		
-		//allows me to use objects of the Databse class. Defines class. Parameters allow us to use the global variables for this function
-		public function __construct($host, $username, $password, $database){  
-			//accesses the global variable $host
-			$this->host = $host;  
-			//these are local variables
-			$this->username = $username;  
-			//they are deleted when this function is finished.
-			$this->password = $password;  
-			$this->database = $database;
+//We want to create functions within this class
+//We want to use a class because using class is a way to view your code in a more intuitive, real-world way
+//A class is a collection of variables and functions working with these variables, we are making an instance of the object
+class Database {
+    private $connection;
+    private $host;
+    private $username;
+    private $password;
+    private $database;
+    public $error;
+    //We use public function so that we can access this function in any file
+    public function __construct($host, $username, $password, $database) {
+        $this->host = $host;
+        $this->username = $username;
+        $this->password = $password;
+        $this->database = $database;
+        
+        $this->connection = new mysqli($host, $username, $password);
 
-			//helps connect to Database.php variables by putting them in an object.  this opens the connection.  
-			$this->connection = new mysqli($host, $username, $password); 
-			//runs if there is no connecton to database.php and hte variables aren't getting read
-			if($this->connection->connect_error){ 
-				//eschoes that there is an error
-				die("Error: "  . $this->connection->connect_error); 
-			}
-			
-			//try to access a database that exist on the mysql server. selecting database, whether server will say whether database exists
-			$exists = $this->connection->select_db($database); 
-			//checking whether or not I was able to connect to the database.  Only runs when the database doesn't exist 
-			if(!$exists){
-				//php will replace the variable $database with its value "blog_db". creates a query that creates a connection to my server
-				$query = $this->connection->query("CREATE DATABASE $database");  
-				//checks whether $query was true or not												
-				if($query){ 
-					//echoes that the database was created
-					//echo "<p>successfully created database: " . $database . "</p>"; 
-				}
+if($this->connection->connect_error) {
+    die("<p>Error: " . $this->connection->connect_error . "</p>");
+}
 
-			}
-			//runs when database has already been created
-			else{
-				//echoes that the database already exists 
-			//	echo "<p>Database already exists</p>"; 
-			}
-		}
+$exists = $this->connection->select_db($database);
 
-		//used to hold repetitive code.  specifically the connection opener
-		public function openConnection(){  
-			//accesses the local variables from the construct function
-			$this->connection = new mysqli($this->host, $this->username, $this->password, $this->database); 
-			//runs if there is no connecton to database.php and hte variables aren't getting read
-			if($this->connection->connect_error){ 
-				//eschoes that there is an error
-				die("Error: "  . $connection->connect_error); 
-			}
+//Check whether or not the database exists
+if(!$exists) {
+    $query = $this->connection->query("CREATE DATABASE $database");
 
-		}
-
-		//input the code into the function and insert the function name where ever the code should go
-		public function closeConnection(){  
-			if(isset($this->connection)){
-				$this->connection->close();
-			}
-		}
-		//the query function takes a string of text and uses it to query the database at $query
-		public function query($string){ 
-			//runs the openConnection() function
-			$this->openConnection();
-			//executes a query on the database
-			$query = $this->connection->query($string);  
-			//checks whether or not the query is false, then echoes out what went wrong
-			if(!$query){
-				//connects to the publiv variable "error" to find the source of error
-				$this->error = $this->connection->error;
-			}
-
-			//runs the closeConnection() function
-			$this->closeConnection();  
-			//returns the results of the query
-			return $query; 
-		}
-
-	}
+if($query) {
+ echo "<p>Sucessfully created database: " . $database . "</p>";
+}
+//echo out what happens when the database already exists
+}
+else {
+    echo "<p>Database already exists</p>";
+}
+    }
+   //create functions and make a connection in the database
+    public function openConnection() {
+        //make the information present in the variable
+        $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
+            //Paste what happens when you get a connection error
+        //We paste this line of code so that the error will show in your database
+        if($this->connection->connect_error) {
+            die("<p>Error: " . $this->connection->connect_error . "</p>");
+        }
+    }
+    //Check to see if there is information or not
+    //We use this to close a connection
+    public function closeConnection() {
+        //make this isset so that we call the particular function
+        //the isset will call the function
+        if(isset($this->connection)) {
+            //Close connection
+            $this->connection->close();
+        }
+    }
+    //open a connection to the database, close the connection and return the result
+    public function query($string) {
+        $this->openConnection();
+        //Use this line of code to run the function and then type in the name of the function
+        $query = $this->connection->query($string);
+        if(!$query) {
+            $this->error = $this->connection->error;
+        }
+        $this->closeConnection();
+        return $query;
+    }
+}

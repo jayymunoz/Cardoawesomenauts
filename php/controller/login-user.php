@@ -1,77 +1,39 @@
-<html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="../css/create.css">
-		<link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.css">
-		<link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.css.map">
-		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css.map">
-		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
-		<meta name="viewport" content="width=device-width">
-		<meta name="viewport" content="width=320">
-		<meta charset="UTF-8">
-		<title>Blogs</title>
-	</head>
+<?php
+require_once(__DIR__ . "/../Model/config.php");
 
-	<header>
-		<h1>WELCOME!</h1>
-	</header>
+$array = array(
+    'exp'=> '',
+    'exp1'=> '',
+    'exp2'=> '',
+    'exp3'=> '',
+    'exp4'=> '',
 
-	<body>
+);
 
-		<?php 
-			//gives access to database
-			require_once(__DIR__ . "/../model/config.php");
-			//stores many variables in ome object
-			$array = array{
-				'exp' => '',
-				'exp1' => '',
-				'exp2' => '',
-				'exp3' => '',
-				'exp4' => '',
-			};
-			//stores username and filters input
-			$username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
-			//stores username and filters input
-			$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
-			//selects proper user from database
-			$query = $_SESSION["connection"]->query("SELECT * FROM users WHERE username = '$username' ");
 
-			if ($query->num_rows == 1) {
-				$row = $query->fetch_array();
+$username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING); 
+$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 
-				if ($row["password"] === crypt($password, $row["salt"]) ){
-					//only allows users to log in
-					$_SESSION["authenticated"] = true;
-					//takes expierence values from above
-					$array["exp"] = $row["exp"];
-					//takes expierence values from above
-					$array["exp1"] = $row["exp1"];
-					//takes expierence values from above
-					$array["exp2"] = $row["exp2"];
-					//takes expierence values from above
-					$array["exp3"] = $row["exp3"];
-					//takes expierence values from above
-					$array["exp4"] = $row["exp4"];
-					$_SESSION["$name"] = $username;
-					//echoes out whole array 
-					echo json_encode($array);				
-				}
-
-				else{
-					echo "<p>Sorry, but the username and/or password you have inputted are incorrect</p>";
-				}
-			}
-
-			else {
-				echo "<p>Sorry, but the username and/or password you have inputted are incorrect</p>";
-			}
-		?>
-
-		<div class="links">
-			<ul>
-				<button type="button" class="btn btn-default btn-lg link">
-					<a href="<?php echo $path . "home.php"?>"><span class="glyphicon glyphicon-home "></span></p> Home </a>
-				</button>
-			</ul>
-		</div>
-	</body>
-</html>
+//This is going to select our salt and password from out username
+$query = $_SESSION["connection"]->query("SELECT * FROM users WHERE username = '$username'");
+//Check to see if the password tht you logged in with is the same as the one you have stored in our database
+if($query->num_rows == 1) {
+    $row = $query->fetch_array();
+    //echo in whether your log in will be successful or not
+    if($row["password"] === crypt($password, $row["salt"])) {
+        $_SESSION["authenticated"] = true;  
+        $array["exp"] = $row["exp"];
+        $array["exp1"] = $row["exp1"];
+        $array["exp2"] = $row["exp2"];
+        $array["exp3"] = $row["exp3"];
+        $array["exp4"] = $row["exp4"];
+                $_SESSION["name"] = $username;  
+        echo json_encode($array);
+    }
+    else {
+        echo "Logon failure: unknown user name or bad password.";
+    }
+}
+else {
+    echo "Logon failure: unknown user name or bad password.";
+}
