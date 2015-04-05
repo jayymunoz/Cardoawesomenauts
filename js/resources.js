@@ -22,6 +22,8 @@ game.resources = [
         {name: "load-screen", type: "image", src:"data/img/loadpic.png"},
         {name: "new-screen", type: "image", src:"data/img/newpic.png"},
         {name: "spear", type: "image", src:"data/img/spear.png"},
+        {name: "map", type: "image", src:"data/img/map.png"},
+        {name: "fireball", type: "image", src:"data/img/fireball.png"},
 
 
 	/* Atlases 

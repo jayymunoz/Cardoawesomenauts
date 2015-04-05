@@ -161,9 +161,9 @@ this.body.pausing = true;
            },
            
            throwSpear: function(){
-               if(this.lastSpear >= game.data.spearTimer && game.data.ability3 >= 0){
+               if((this.now-this.lastSpear) >= game.data.spearTimer*1000 && game.data.ability3 > 0){
              this.lastSpear = this.now;
-            var spear = me.pool.pull("spear", this.pos.x, this.pos.y, {});
+            var spear = me.pool.pull("spear", this.pos.x, this.pos.y, {}, this.facing);
             me.game.world.addChild(spear, 10);
         }
            },
@@ -201,8 +201,6 @@ this.body.pausing = true;
    collideWithEnemyBase: function(response){
         var ydif = this.pos.y - response.b.pos.y;
            var xdif = this.pos.x - response.b.pos.x;
-           
-           console.log("xdif" + xdif + "ydif" +ydif);
            
             if(ydif<-40 && xdif< 70 && xdif>-35){
                this.body.falling = false;
